@@ -1,0 +1,90 @@
+@baseUrl = http://127.0.0.1:8000
+
+### ==========================================
+### MÓDULO: CATEGORÍAS
+### ==========================================
+
+### 0. Iniciar sesión como Administrador (obtiene cookie access_token)
+# @name loginAdmin
+POST {{baseUrl}}/api/v1/auth/token
+Content-Type: application/x-www-form-urlencoded
+
+username=admin@foodstore.com&password=Admin1234!
+
+### 1. Listar Categorías
+GET {{baseUrl}}/categorias/
+
+### 2. Crear Primera Categoría
+POST {{baseUrl}}/categorias/
+Content-Type: application/json
+
+{
+  "nombre": "Pizzas",
+  "descripcion": "Pizzas artesanales con masa fresca"
+}
+
+### 3. Crear Segunda Categoría
+POST {{baseUrl}}/categorias/
+Content-Type: application/json
+
+{
+  "nombre": "Hamburguesas",
+  "descripcion": "Hamburguesas gourmet con ingredientes frescos"
+}
+
+### 4. Crear Tercera Categoría para eliminar
+POST {{baseUrl}}/categorias/
+Content-Type: application/json
+
+{
+  "nombre": "Temporal Descartable",
+  "descripcion": "Categoría para probar eliminación"
+}
+
+### 5. Detalle de Categoría
+GET {{baseUrl}}/categorias/1
+
+### 6. Actualizar Categoría
+PUT {{baseUrl}}/categorias/1
+Content-Type: application/json
+
+{
+  "nombre": "Pizzas Especiales",
+  "descripcion": "Pizzas artesanales y a la piedra con ingredientes gourmet"
+}
+
+### 7. Eliminar Categoría (Borrado lógico con deleted_at, responde 204)
+DELETE {{baseUrl}}/categorias/3
+
+### ==========================================
+### MÓDULO: PRODUCTOS
+### ==========================================
+
+### 8. Listar Productos
+GET {{baseUrl}}/productos/
+
+### 9. Crear Producto
+POST {{baseUrl}}/productos/
+Content-Type: application/json
+
+{
+  "nombre": "Pizza Margarita",
+  "descripcion": "Salsa de tomate, mozzarella fior di latte y albahaca fresca",
+  "precio_base": 7500.0,
+  "imagenes_url": [
+    "https://images.unsplash.com/photo-1574071318508-1cdbab80d002"
+  ],
+  "disponible": true
+}
+
+### 10. Asignar Categoría a Producto
+POST {{baseUrl}}/productos/1/categorias
+Content-Type: application/json
+
+{
+  "categoria_id": 1,
+  "es_principal": true
+}
+
+### 11. Eliminar Producto (Borrado lógico con deleted_at, responde 204)
+DELETE {{baseUrl}}/productos/1

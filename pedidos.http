@@ -1,0 +1,63 @@
+@baseUrl = http://127.0.0.1:8000
+
+### 0. Iniciar sesión como Administrador
+# @name loginAdmin
+POST {{baseUrl}}/api/v1/auth/token
+Content-Type: application/x-www-form-urlencoded
+
+username=admin@foodstore.com&password=Admin1234!
+
+### 1. Iniciar sesión como Usuario Regular
+# @name loginUser
+POST {{baseUrl}}/api/v1/auth/token
+Content-Type: application/x-www-form-urlencoded
+
+username=juan@foodstore.com&password=Juan1234!
+
+### 2. Listar formas de pago de catálogo
+GET {{baseUrl}}/pedidos/catalogos/formas-pago
+
+### 3. Listar estados de pedido de catálogo
+GET {{baseUrl}}/pedidos/catalogos/estados-pedido
+
+### 4. Crear dirección de entrega
+POST {{baseUrl}}/pedidos/direcciones
+Content-Type: application/json
+
+{
+  "calle": "Av. Corrientes",
+  "numero": "1234",
+  "piso_depto": "4B",
+  "ciudad": "CABA",
+  "codigo_postal": "1043"
+}
+
+### 5. Listar direcciones del usuario autenticado
+GET {{baseUrl}}/pedidos/direcciones
+
+### 6. Listar pedidos
+GET {{baseUrl}}/pedidos
+
+### 7. Crear pedido
+POST {{baseUrl}}/pedidos
+Content-Type: application/json
+
+{
+  "detalles": [
+    {
+      "producto_id": 1,
+      "cantidad": 2
+    }
+  ]
+}
+
+### 8. Actualizar estado de pedido
+PUT {{baseUrl}}/pedidos/1
+Content-Type: application/json
+
+{
+  "estado": "CONFIRMADO"
+}
+
+### 9. Eliminar pedido (Borrado lógico, responde 204)
+DELETE {{baseUrl}}/pedidos/1

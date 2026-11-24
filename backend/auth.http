@@ -1,0 +1,53 @@
+@baseUrl = http://127.0.0.1:8000
+
+### ==========================================
+### MÓDULO: AUTENTICACIÓN Y ROLES
+### ==========================================
+
+### 1. Registrar nuevo usuario (rol user por defecto)
+# @name registerUser
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "nombre": "Mariana",
+  "apellido": "Gomez",
+  "email": "mariana@foodstore.com",
+  "celular": "+5491144445555",
+  "password": "Password123!"
+}
+
+### 2. Login como Usuario Regular (recibe cookie HttpOnly)
+# @name loginUser
+POST {{baseUrl}}/api/v1/auth/token
+Content-Type: application/x-www-form-urlencoded
+
+username=juan@foodstore.com&password=Juan1234!
+
+### 3. Obtener datos del usuario autenticado (/me)
+GET {{baseUrl}}/api/v1/auth/me
+
+### 4. Usuario regular intenta ver /admin/usuarios (responde 403)
+GET {{baseUrl}}/api/v1/auth/admin/usuarios
+
+### 5. Login como Administrador (admin@foodstore.com / Admin1234!)
+# @name loginAdmin
+POST {{baseUrl}}/api/v1/auth/token
+Content-Type: application/x-www-form-urlencoded
+
+username=admin@foodstore.com&password=Admin1234!
+
+### 6. Administrador lista todos los usuarios (responde 200)
+GET {{baseUrl}}/api/v1/auth/admin/usuarios
+
+### 7. Administrador desactiva un usuario (soft-delete vía deleted_at)
+POST {{baseUrl}}/api/v1/auth/admin/usuarios/2/desactivar
+
+### 8. Administrador reactiva un usuario
+POST {{baseUrl}}/api/v1/auth/admin/usuarios/2/activar
+
+### 9. Cerrar Sesión (elimina cookie access_token)
+POST {{baseUrl}}/api/v1/auth/logout
+
+### 10. Probar /me sin sesión (responde 401)
+GET {{baseUrl}}/api/v1/auth/me

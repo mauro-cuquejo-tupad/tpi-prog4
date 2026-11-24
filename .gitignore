@@ -1,0 +1,19 @@
+# Python / Backend
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.db
+*.sqlite3
+backend/.env
+# Node / Frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+frontend/.env
+# IDEs y SO
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
