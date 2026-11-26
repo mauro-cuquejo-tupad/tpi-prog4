@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Optional, List
 from sqlmodel import Session, select
-from app.modules.usuarios.model import Usuario, Rol, UsuarioRol
+from app.modules.usuarios.models import Usuario, Rol, UsuarioRol
 
 class UsuarioRepository:
     def __init__(self, session: Session):

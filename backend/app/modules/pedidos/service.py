@@ -1,9 +1,9 @@
 from typing import List, Optional
 from datetime import datetime, timezone
 from fastapi import HTTPException, status
-from app.pedidos.models import Pedido, DetallePedido, DireccionEntrega
-from app.pedidos.schemas import PedidoCreate, PedidoRead, PedidoReadFull, PedidoUpdateEstado, DireccionEntregaCreate, DireccionEntregaRead, CatalogoItemRead
-from app.pedidos.unit_of_work import PedidoUnitOfWork
+from app.modules.pedidos.models import Pedido, DetallePedido, DireccionEntrega
+from app.modules.pedidos.schemas import PedidoCreate, PedidoRead, PedidoReadFull, PedidoUpdateEstado, DireccionEntregaCreate, DireccionEntregaRead, CatalogoItemRead
+from app.modules.pedidos.unit_of_work import PedidoUnitOfWork
 
 class PedidoNoEncontrado(Exception):
     pass

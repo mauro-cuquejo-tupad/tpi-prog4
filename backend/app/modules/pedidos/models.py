@@ -4,8 +4,8 @@ from datetime import datetime, timezone
 from sqlmodel import SQLModel, Field, Relationship
 
 if TYPE_CHECKING:
-    from app.modules.productos.model import Producto
-    from app.modules.usuarios.model import Usuario
+    from app.modules.productos.models import Producto
+    from app.modules.usuarios.models import Usuario
 
 class Estado(str, Enum):
     PENDIENTE = "PENDIENTE"

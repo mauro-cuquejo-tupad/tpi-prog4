@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import List, Optional
 from sqlmodel import Session, select
-from app.pedidos.model import Pedido, DetallePedido, FormaPago, EstadoPedido, DireccionEntrega
+from app.modules.pedidos.models import Pedido, DetallePedido, FormaPago, EstadoPedido, DireccionEntrega
 from app.core.base_repository import BaseRepository
 
 class PedidoRepository(BaseRepository[Pedido]):

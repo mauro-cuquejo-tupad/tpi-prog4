@@ -1,11 +1,11 @@
-from app.producto.schema import ProductoFullRead
+from app.modules.productos.schemas import ProductoFullRead
 from typing import List
 from sqlmodel import Session
 from fastapi import HTTPException, status
-from app.producto.model import Producto
-from app.producto.schema import ProductoCreate, ProductoRead
-from app.producto import repository as repo
-from app.categoria import repository as categoria_repo
+from app.modules.productos.models import Producto
+from app.modules.productos.schemas import ProductoCreate, ProductoRead
+from app.modules.productos import repository as repo
+from app.modules.categorias import repository as categoria_repo
 
 def crear(data: ProductoCreate, session: Session) -> ProductoRead:
     if repo.get_by_nombre(data.nombre, session):

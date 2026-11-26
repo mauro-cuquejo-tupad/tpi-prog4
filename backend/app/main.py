@@ -6,10 +6,10 @@ from app.core.config import settings
 from seed import seed_data
 
 # Registra las tablas en SQLModel.metadata
-import app.modules.productos.model  
-import app.modules.categorias.model
-import app.modules.pedidos.model
-import app.modules.usuarios.model
+import app.modules.productos.models
+import app.modules.categorias.models
+import app.modules.pedidos.models
+import app.modules.usuarios.models
 
 # Routers de los módulos
 from app.modules.usuarios.router import router as usuario_router

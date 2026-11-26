@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Path, Query, status, Depends
 from typing import List, Annotated
-from app.pedidos.schemas import (
+from app.modules.pedidos.schemas import (
     PedidoCreate,
     PedidoRead,
     PedidoReadFull,
@@ -9,13 +9,13 @@ from app.pedidos.schemas import (
     DireccionEntregaRead,
     CatalogoItemRead,
 )
-from app.pedidos.service import (
+from app.modules.pedidos.service import (
     PedidoService,
     ProductoNoEncontrado,
     PedidoNoEncontrado,
     PedidoEstadoInvalido
 )
-from app.pedidos.unit_of_work import PedidoUnitOfWork
+from app.modules.pedidos.unit_of_work import PedidoUnitOfWork
 from app.core.database import session_factory
 from app.core.deps import get_current_active_user, require_role
 from app.modules.usuarios.schemas import UserPublic

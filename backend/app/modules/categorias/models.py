@@ -2,7 +2,7 @@ from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import Field, SQLModel, Relationship
 
 if TYPE_CHECKING:
-    from app.modules.productos.model import Producto
+    from app.modules.productos.models import Producto
 
 class Categoria(SQLModel, table=True):
     __tablename__ = "categoria"

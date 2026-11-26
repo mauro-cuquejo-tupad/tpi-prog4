@@ -2,8 +2,8 @@ from datetime import datetime, timezone
 from typing import List, Optional
 from fastapi import HTTPException, status
 from app.core.security import hash_password, verify_password, create_access_token
-from app.core.uow import UnitOfWork
-from app.modules.usuarios.model import Usuario, Rol
+from app.core.unit_of_work import UnitOfWork
+from app.modules.usuarios.models import Usuario, Rol
 from app.modules.usuarios.schemas import UserCreate, UserPublic
 
 class UsuarioService:

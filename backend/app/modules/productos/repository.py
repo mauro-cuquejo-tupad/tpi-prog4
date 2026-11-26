@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from sqlmodel import Session, select
-from app.producto.model import Producto, ProductoCategoria
-from app.categoria.model import Categoria
+from app.modules.productos.models import Producto, ProductoCategoria
+from app.modules.categorias.models import Categoria
 
 def get_by_id(id: int, session: Session) -> Producto | None:
     statement = select(Producto).where(Producto.id == id, Producto.deleted_at.is_(None))

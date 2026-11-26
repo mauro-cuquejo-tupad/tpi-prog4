@@ -4,7 +4,7 @@ from sqlmodel import SQLModel, Field, Relationship
 from enum import Enum
 
 if TYPE_CHECKING:
-    from app.modules.pedidos.model import Pedido
+    from app.modules.pedidos.models import Pedido
     
 class RolUsuario(str, Enum):
     ADMIN = "admin"

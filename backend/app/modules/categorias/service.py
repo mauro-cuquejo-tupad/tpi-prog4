@@ -1,10 +1,10 @@
 from typing import List, Optional
-from .schema import CategoriaCreate, CategoriaRead
+from .schemas import CategoriaCreate, CategoriaRead
 from sqlmodel import Session
-from app.categoria import repository as repo
+from app.modules.categorias import repository as repo
 from fastapi import status
 from fastapi.exceptions import HTTPException
-from app.categoria.model import Categoria
+from app.modules.categorias.models import Categoria
 
 def crear(data: CategoriaCreate, session: Session) -> CategoriaRead:
     if repo.get_by_nombre(data.nombre, session):
