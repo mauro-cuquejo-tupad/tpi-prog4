@@ -1,4 +1,3 @@
-import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,17 +5,17 @@ from app.core.database import create_db_and_tables
 from app.core.config import settings
 from seed import seed_data
 
-import app.producto.model  # Registra las tablas en SQLModel.metadata
-import app.categoria.model
-import app.ingrediente.model
-import app.pedidos.models
+# Registra las tablas en SQLModel.metadata
+import app.modules.productos.model  
+import app.modules.categorias.model
+import app.modules.pedidos.model
 import app.modules.usuarios.model
 
-from app.modules.usuarios.router import router as auth_router
-from app.producto.router import router as producto_router
-from app.categoria.router import router as categoria_router
-from app.ingrediente.router import router as ingrediente_router
-from app.pedidos.router import router as pedidos_router
+# Routers de los módulos
+from app.modules.usuarios.router import router as usuario_router
+from app.modules.productos.router import router as producto_router
+from app.modules.categorias.router import router as categoria_router
+from app.modules.pedidos.router import router as pedidos_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -42,13 +41,10 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    # Router de autenticación bajo /api/v1/auth
-    app.include_router(auth_router, prefix="/api/v1")
-
     # Módulos del Food Store
+    app.include_router(usuario_router)
     app.include_router(categoria_router)
     app.include_router(producto_router)
-    app.include_router(ingrediente_router)
     app.include_router(pedidos_router)
 
     return app

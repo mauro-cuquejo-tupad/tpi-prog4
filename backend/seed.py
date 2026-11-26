@@ -2,11 +2,10 @@ import os
 from datetime import datetime, timezone
 from sqlmodel import Session, select
 from app.core.database import engine, create_db_and_tables
-from app.categoria.model import Categoria
-from app.producto.model import Producto, ProductoCategoria
-from app.ingrediente.model import Ingrediente
+from app.modules.categorias.model import Categoria
+from app.modules.productos.model import Producto, ProductoCategoria
 from app.modules.usuarios.model import Usuario, Rol, UsuarioRol
-from app.pedidos.models import FormaPago, EstadoPedido
+from app.modules.pedidos.model import FormaPago, EstadoPedido
 from app.core.security import hash_password
 
 def seed_data():
@@ -96,31 +95,21 @@ def seed_data():
             session.commit()
             print("🌱 [SEED] Categorías de prueba creadas.")
 
-        # 5. Ingredientes
-        if not session.exec(select(Ingrediente)).first():
-            ing1 = Ingrediente(nombre="Queso Cheddar Fundido")
-            ing2 = Ingrediente(nombre="Panceta Ahumada Crispy")
-            ing3 = Ingrediente(nombre="Cebolla Caramelizada")
-            ing4 = Ingrediente(nombre="Salsa BBQ Casera")
-            session.add_all([ing1, ing2, ing3, ing4])
-            session.commit()
-            print("🌱 [SEED] Ingredientes de prueba creados.")
-
-        # 6. Productos y asociación de categorías
+        # 5. Productos y asociación de categorías
         if not session.exec(select(Producto)).first():
             prod1 = Producto(
                 nombre="Papas Rústicas Cheddar y Bacon",
                 descripcion="Papas naturales cortadas a mano con salsa cheddar y lluvia de bacon crocante",
                 precio_base=6800.0,
                 disponible=True,
-                imagenes_url=["https://images.unsplash.com/photo-1573080496219-bb080dd4f877"]
+                imagen_url="https://images.unsplash.com/photo-1573080496219-bb080dd4f877"
             )
             prod2 = Producto(
                 nombre="Burger Monumental Triple",
                 descripcion="Triple medallón vacuno de 120g, triple cheddar y cebolla caramelizada",
                 precio_base=10500.0,
                 disponible=True,
-                imagenes_url=["https://images.unsplash.com/photo-1568901346375-23c9450c58cd"]
+                imagen_url="https://images.unsplash.com/photo-1568901346375-23c9450c58cd"
             )
             session.add_all([prod1, prod2])
             session.commit()
