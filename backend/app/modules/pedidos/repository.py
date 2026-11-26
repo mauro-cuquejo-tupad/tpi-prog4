@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 from typing import List, Optional
 from sqlmodel import Session, select
-from app.pedidos.models import Pedido, DetallePedido, FormaPago, EstadoPedido, DireccionEntrega
-from app.core.repository import BaseRepository
+from app.pedidos.model import Pedido, DetallePedido, FormaPago, EstadoPedido, DireccionEntrega
+from app.core.base_repository import BaseRepository
 
 class PedidoRepository(BaseRepository[Pedido]):
     def __init__(self, session: Session):

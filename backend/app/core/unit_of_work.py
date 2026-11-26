@@ -1,10 +1,11 @@
+from typing import Optional, Callable
 from sqlmodel import Session
 from app.core.database import session_factory
 
-class AbstractUnitOfWork:
-    def __init__(self, factory=session_factory):
+class UnitOfWork:
+    def __init__(self, factory:Callable[[], Session] = session_factory):
         self.session_factory = factory
-        self.session: Session | None = None
+        self.session: Optional[Session] = None
 
     def __enter__(self):
         self.session = self.session_factory()
@@ -12,13 +13,14 @@ class AbstractUnitOfWork:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         try:
-            if exc_type:
+            if exc_type is not None:
                 self.rollback()
             else:
                 self.commit()
         finally:
             if self.session:
                 self.session.close()
+                self.session = None
 
     def commit(self):
         if self.session:

@@ -1,9 +1,9 @@
 from app.core.database import session_factory
-from app.core.unit_of_work import AbstractUnitOfWork
-from app.pedidos.repository import PedidoRepository, DetallePedidoRepository, CatalogosRepository
-from app.producto.repository import get_by_id as get_producto_by_id
+from app.core.unit_of_work import UnitOfWork
+from app.modules.pedidos.repository import PedidoRepository, DetallePedidoRepository, CatalogosRepository
+from app.modules.productos.repository import get_by_id as get_producto_by_id
 
-class PedidoUnitOfWork(AbstractUnitOfWork):
+class PedidoUnitOfWork(UnitOfWork):
     def __init__(self, factory=session_factory):
         super().__init__(factory)
         self.pedidos: PedidoRepository | None = None
