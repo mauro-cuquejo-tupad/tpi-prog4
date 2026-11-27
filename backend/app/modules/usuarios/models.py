@@ -20,6 +20,6 @@ class Usuario(SQLModel, table=True):
     hashed_password: str
     role: RolUsuario = Field(default=RolUsuario.USER)
     disabled: bool = Field(default=False)
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     pedidos: List["Pedido"] = Relationship(back_populates="usuario")
