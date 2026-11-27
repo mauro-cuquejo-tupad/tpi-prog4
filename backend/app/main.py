@@ -12,7 +12,7 @@ import app.modules.pedidos.models
 import app.modules.usuarios.models
 
 # Routers de los módulos
-from app.modules.usuarios.router import router as usuario_router
+from app.modules.usuarios.router import auth_router, admin_usuarios_router
 from app.modules.productos.router import router as producto_router
 from app.modules.categorias.router import router as categoria_router
 from app.modules.pedidos.router import router as pedidos_router
@@ -41,11 +41,13 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
+    BASE_PATH = "/api/v1"
     # Módulos del Food Store
-    app.include_router(usuario_router)
-    app.include_router(categoria_router)
-    app.include_router(producto_router)
-    app.include_router(pedidos_router)
+    app.include_router(auth_router, prefix=BASE_PATH)
+    app.include_router(admin_usuarios_router, prefix=BASE_PATH)
+    app.include_router(categoria_router, prefix=BASE_PATH)
+    app.include_router(producto_router, prefix=BASE_PATH)
+    app.include_router(pedidos_router, prefix=BASE_PATH)
 
     return app
 
