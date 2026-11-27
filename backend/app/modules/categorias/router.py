@@ -1,51 +1,39 @@
-from fastapi import APIRouter, Path, Query, status, Depends
-from typing import List, Annotated
-from . import schema, service
-from app.core.database import get_session
-from sqlmodel import Session
-from app.core.deps import get_current_active_user, require_role
+from app.modules.categorias.schemas import CategoriaCreate
+from app.modules.categorias.schemas import CategoriaRead, CategoriaUpdate
+from app.modules.categorias.service import CategoriaService
+from app.modules.categorias.unit_of_work import CategoriaUnitOfWork, get_categoria_uow
 from app.modules.usuarios.schemas import UserPublic
+from app.core.deps import require_role
+from fastapi import APIRouter, status, Depends, Response
+from typing import List, Annotated
 
 router = APIRouter(prefix="/categorias", tags=["Categorías"])
 
-@router.post("/", response_model=schema.CategoriaRead, status_code=status.HTTP_201_CREATED)
-def alta_categoria(
-    categoria: schema.CategoriaCreate,
-    _admin: Annotated[UserPublic, Depends(require_role(["admin"]))],
-    session: Session = Depends(get_session)
-):
-    return service.crear(categoria, session)
+def get_categoria_service(uow: Annotated[CategoriaUnitOfWork, Depends(get_categoria_uow)]) -> CategoriaService:
+    return CategoriaService(uow)
 
-@router.get("/", response_model=List[schema.CategoriaRead], status_code=status.HTTP_200_OK)
-def listar_categorias(
-    _user: Annotated[UserPublic, Depends(get_current_active_user)],
-    skip: int = Query(0, ge=0),
-    limit: int = Query(10, le=50),
-    session: Session = Depends(get_session)
-):
-    return service.obtener_todas(skip, limit, session)
+ServicioCategoria = Annotated[CategoriaService, Depends(get_categoria_service)]
+SoloAdmin = Annotated[UserPublic, Depends(require_role(["admin"]))]   
 
-@router.get("/{id}", response_model=schema.CategoriaRead, status_code=status.HTTP_200_OK)
-def detalle_categoria(
-    _user: Annotated[UserPublic, Depends(get_current_active_user)],
-    id: int = Path(..., gt=0),
-    session: Session = Depends(get_session)
-):
-    return service.obtener_por_id(id, session)
+# Lecturas públicas
+@router.get("", response_model=List[CategoriaRead])
+def listar_categorias(service: ServicioCategoria):
+    return service.listar_activas()
 
-@router.put("/{id}", response_model=schema.CategoriaRead, status_code=status.HTTP_200_OK)
-def actualizar_categoria(
-    categoria: schema.CategoriaCreate,
-    _admin: Annotated[UserPublic, Depends(require_role(["admin"]))],
-    id: int = Path(..., gt=0),
-    session: Session = Depends(get_session)
-):
-    return service.actualizar_total(id, categoria, session)
+@router.get("/{id}", response_model=CategoriaRead)
+def detalle_categoria(id: int, service: ServicioCategoria):
+    return service.obtener_por_id(id)
+
+# Escrituras sólo admin
+@router.post("", response_model=CategoriaRead, status_code=status.HTTP_201_CREATED)
+def crear_categoria(data: CategoriaCreate, _admin: SoloAdmin, service: ServicioCategoria):
+    return service.crear(data)
+
+@router.put("/{id}", response_model=CategoriaRead)
+def actualizar_categoria(id: int, data: CategoriaUpdate, _admin: SoloAdmin, service: ServicioCategoria):
+    return service.actualizar(id, data)
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def eliminar_categoria(
-    _admin: Annotated[UserPublic, Depends(require_role(["admin"]))],
-    id: int = Path(..., gt=0),
-    session: Session = Depends(get_session)
-):
-    service.eliminar(id, session)
+def eliminar_categoria(id: int, _admin: SoloAdmin, service: ServicioCategoria):
+    service.eliminar_logico(id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
